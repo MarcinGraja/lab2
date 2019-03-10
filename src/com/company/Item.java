@@ -1,4 +1,7 @@
 package com.company;
+
+import java.util.Comparator;
+
 enum ItemCondition{
     NEW, USED, REFURBISHED;
 }
