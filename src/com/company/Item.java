@@ -16,12 +16,18 @@ public class Item implements Comparable<Item>{
         this.mass=mass;
         this.count=count;
     }
+    Item(String name, ItemCondition condition, double mass){
+        this.name = name;
+        this.condition=condition;
+        this.mass=mass;
+    }
     public void print(){
         System.out.println("Nazwa produktu: " + name + " stan: " + condition + " masa: " + mass + " ilosc: " + count);
     }
     public int compareTo(Item compared){
         return this.name.compareTo(compared.name);
     }
+
     @Override
     public boolean equals(Object obj){
         if (this == obj){

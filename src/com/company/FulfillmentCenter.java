@@ -2,20 +2,47 @@ package com.company;
 
 import java.util.*;
 
-import static com.company.ItemCondition.*;
-
-public class FulfillmentCenter {
+public class FulfillmentCenter{
     private String name;
-    public ArrayList <Item> listOfProducts = new ArrayList<>();
+    private List <Item> listOfProducts ;
     private double capacity;
     private double currentCapacity;
-    FulfillmentCenter(String name, int capacity){
+    FulfillmentCenter(String name, double capacity){
         this.name = name;
-        this.capacity=capacity;
+        this.capacity = capacity;
+        this.currentCapacity = capacity;
+        listOfProducts = new ArrayList<>();
     }
+    public String getName() {
+        return name;
+    }
+
+    public double getCapacity() {
+        return capacity;
+    }
+
+    public double getCurrentCapacity() {
+        return currentCapacity;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if (this == obj){
+            return true;
+        }
+        if (this.getClass()!=obj.getClass()){
+            return false;
+        }
+        FulfillmentCenter compared = (FulfillmentCenter) obj;
+        return this.name.equals(compared.name);
+    }
+
+
+
     public void addProduct(Item item){
         if (currentCapacity<item.getCount()*item.getMass()){
             System.err.println("Brak miejsca w magazynie; Wymagane miejsce: " + item.getCount()*item.getMass() + "; dostępne: " + currentCapacity);
+            return;
         }
         if (listOfProducts.contains(item)){
             Item listedItem = listOfProducts.get(listOfProducts.indexOf(item));
@@ -86,16 +113,29 @@ public class FulfillmentCenter {
             item.print();
         }
     }
-    public List sortByName(){
-        return listOfProducts.sort(new Comparator<Item>() {
+    public void sortByName(){
+        listOfProducts.sort(new Comparator<Item>() {
             @Override
             public int compare(Item o1, Item o2) {
                 return o1.compareTo(o2);
             }
         });
     }
-    public double getCapacity(){
-        return capacity;
+    public void sortByAmount(){
+        listOfProducts.sort(new Comparator<Item>(){
+            @Override
+            public int compare(Item o1, Item o2){
+                return Integer.compare(o1.getCount(), o2.getCount());
+            }
+        });
+    }
+    public Item max(){
+        return Collections.max(listOfProducts, new Comparator<Item>(){
+            @Override
+            public int compare(Item o1, Item o2){
+                return Integer.compare(o1.getCount(), o2.getCount());
+            }
+        });
     }
     public void print(){
         Iterator iterator = listOfProducts.iterator();
